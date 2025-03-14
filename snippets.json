@@ -1,0 +1,96 @@
+{
+  "Function definition": {
+    "prefix": ["function"],
+    "body": [
+      "function $1 do",
+      "  $0",
+      "end"],
+    "description": "New JikiScript function without arguments."
+  },
+  "Function definition with arguments": {
+    "prefix": ["function"],
+    "body": [
+      "function $1 with $2 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript function with arguments."
+  },
+  "For each block": {
+    "prefix": ["for"],
+    "body": [
+      "for each $1 in $2 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript for each loop."
+  },
+  "For each with index block": {
+    "prefix": ["for"],
+    "body": [
+      "for each $1 in $2 indexed by $3 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript for each with index loop."
+  },
+  "If else": {
+    "prefix": ["if"],
+    "body": [
+      "if $1 do",
+      "  $0",
+      "else do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript if statement with else."
+  },
+  "If elsif": {
+    "prefix": ["if"],
+    "body": [
+      "if $1 do",
+      "  $0",
+      "else if $2 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript if statement with elsif."
+  },
+  "Repeat times block": {
+    "prefix": ["repeat"],
+    "body": [
+      "repeat $1 times do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript repeat n times loop."
+  },
+  "Repeat times with index block": {
+    "prefix": ["repeat"],
+    "body": [
+      "repeat $1 times indexed by $2 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript repeat n times with index loop."
+  },
+  "Repeat forever block": {
+    "prefix": ["repeat_forever"],
+    "body": [
+      "repeat_forever do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript repeat forever loop."
+  },
+
+  "Repeat forever with index block": {
+    "prefix": ["repeat_forever"],
+    "body": [
+      "repeat_forever indexed by $1 do",
+      "  $0",
+      "end"
+    ],
+    "description": "New JikiScript repeat forever with index loop."
+  }
+}

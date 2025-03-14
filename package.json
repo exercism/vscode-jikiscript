@@ -1,0 +1,86 @@
+{
+  "name": "jikiscript",
+  "publisher": "exercism",
+  "displayName": "JikiScript",
+  "description": "Language support for Exercism's bootcamp language JikiScript",
+  "icon": "media/favicon.png",
+  "galleryBanner": {
+    "color": "#000cfe",
+    "theme": "light"
+  },
+  "version": "0.1.0",
+  "preview": true,
+  "author": {
+    "email": "derk-jan+git@karrenbeld.info",
+    "name": "Derk-Jan Karrenbeld",
+    "url": "https://derk-jan.com"
+  },
+  "bugs": {
+    "url": "https://github.com/exercism/vscode-jikiscript/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exercism/vscode-jikiscript.git"
+  },
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "exercism",
+    "jikiscript",
+    "bootcamp"
+  ],
+  "license": "MIT",
+  "contributes": {
+    "languages": [
+      {
+        "id": "jikiscript",
+        "aliases": [
+          "JikiScript",
+          "jikiscript"
+        ],
+        "extensions": [
+          ".jiki",
+          ".jikiscript",
+          ".jikis"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "jikiscript-markdown-injection"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "jikiscript",
+        "path": "./snippets.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jikiscript",
+        "scopeName": "source.jikiscript",
+        "path": "./syntaxes/jikiscript.tmLanguage.json"
+      },
+      {
+        "language": "jikiscript-markdown-injection",
+        "scopeName": "markdown.jikiscript.codeblock",
+        "path": "./syntaxes/jikiscript-markdown-injection.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.jikiscript": "jikiscript"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package --out vscode-jikiscript.vsix",
+    "package:prerelease": "vsce package --pre-release --out vscode-jikiscript.vsix"
+  }
+}

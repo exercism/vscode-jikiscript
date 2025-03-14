@@ -1,0 +1,271 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "JikiScript",
+  "scopeName": "source.jikiscript",
+  "patterns": [
+    {
+      "include": "#strings"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "keyword.control.jikiscript"
+        },
+        "2": {
+          "name": "variable.jikiscript"
+        },
+        "3": {
+          "name": "keyword.control.jikiscript"
+        }
+      },
+      "match": "^\\s*(set|change)\\s*([a-z](?:[A-Za-z0-9_])*)(?:\\[(?:[a-z](?:[A-Za-z0-9_])*|[0-9]+)\\])*\\s*(to)",
+      "comment": "A local variable assignment",
+      "name": "meta.variable.assignment.jikiscript"
+    },
+    {
+      "comment": "Mark as namespace separator if my followed by pound",
+      "match": "(my)(#)(?=[a-z])",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.constant.jikiscript"
+        },
+        "2": {
+          "name": "punctuation.separator.namespace.jikiscript"
+        }
+      }
+    },
+    {
+      "comment": "contextual smart pair support for block parameters",
+      "match": "(?<!\\.)\\bdo\\b",
+      "name": "keyword.control.start-block.jikiscript"
+    },
+    {
+      "match": "(?<!\\.)\\b(break|next|return|continue)\\b(?![?!])",
+      "name": "keyword.control.pseudo-method.jikiscript"
+    },
+    {
+      "match": "\\b(true|false)\\b(?![?!])",
+      "name": "constant.language.boolean.jikiscript"
+    },
+    {
+      "begin": "^(function)\\s+(.*?)\\s+(with)\\s+",
+      "end": "\\s+(do)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.function.jikiscript"
+        },
+        "2": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "3": {
+          "name": "keyword.control.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.function.method.with-arguments.jikiscript",
+      "patterns": [{
+        "begin": "(?=[_a-zA-Z])",
+        "end": "(?=(,|\\s+do))",
+        "patterns": [{
+          "include": "#params"
+        }]
+      }]
+    },
+    {
+      "match": "^(function)\\s+(.*?)\\s+(do)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.function.jikiscript"
+        },
+        "2": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "3": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.function.method.without-arguments.jikiscript"
+    },
+    {
+      "match": "(for)\\s+(each)\\s+(.*?)\\s+(in)\\s+(.*?)(?:\\s+(indexed\\s+by)\\s+(.*?))?\\s+(do)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.jikiscript"
+        },
+        "3": {
+          "name": "variable.other.enumerator.jikiscript"
+        },
+        "4": {
+          "name": "keyword.control.jikiscript"
+        },
+        "5": {
+          "name": "variable.other.enumerable.jikiscript"
+        },
+        "6": {
+          "name": "keyword.control.jikiscript"
+        },
+        "7": {
+          "name": "variable.other.index.jikiscript"
+        },
+        "8": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.enumerable.for-each.jikiscript",
+      "patterns": [{
+        "include": "$self"
+
+      }]
+    },
+    {
+      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
+      "name": "constant.numeric.jikiscript"
+    },
+    {
+      "comment": "everything being a reserved word, not a value and needing a 'end' is a..",
+      "match": "(?<!\\.)\\b(repeat|times|repeat_until_game_over|repeat_forever|for|indexed|by|each|in|with|to|return|if|else|unless|end)\\b(?![?!])",
+      "name": "keyword.control.jikiscript"
+    },
+    {
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.jikiscript"
+        }
+      },
+      "comment": "string literal with \"\" delimiter",
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.jikiscript"
+        }
+      }
+    },
+    {
+      "begin": "(^[ \\t]+)?(?=//)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.jikiscript"
+        }
+      },
+      "end": "(?!\\G)",
+      "patterns": [
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.jikiscript"
+            }
+          },
+          "end": "\\n",
+          "name": "comment.line.number-sign.jikiscript"
+        }
+      ]
+    },
+    {
+      "match": "=>",
+      "name": "punctuation.separator.key-value"
+    },
+    {
+      "match": "<(?!<|=)|>(?!<|=|>)|<=|>=|==|!=",
+      "name": "keyword.operator.comparison.jikiscript"
+    },
+    {
+      "match": "(?<!\\.)\\b(and|not|or)\\b(?![?!])",
+      "name": "keyword.operator.logical.jikiscript"
+    },
+    {
+      "match": "(?<=^|[ \\t!])!",
+      "name": "keyword.operator.logical.jikiscript"
+    },
+    {
+      "match": "(%|\\*|\\+|-|/)",
+      "name": "keyword.operator.arithmetic.jikiscript"
+    },
+    {
+      "match": "to",
+      "name": "keyword.operator.assignment.jikiscript"
+    },
+    {
+      "match": ",",
+      "name": "punctuation.separator.object.jikiscript"
+    },
+    {
+      "match": "\\[",
+      "name": "punctuation.section.array.begin.jikiscript"
+    },
+    {
+      "match": "]",
+      "name": "punctuation.section.array.end.jikiscript"
+    },
+    {
+      "match": "\\(|\\)",
+      "name": "punctuation.section.function.jikiscript"
+    },
+    {
+      "name": "meta.function-call.jikiscript",
+      "begin": "(?<=[^\\.]\\.|::)(?=[a-zA-Z][a-zA-Z0-9_!?]*[^a-zA-Z0-9_!?])",
+      "end": "(?<=[a-zA-Z0-9_!?])(?=[^a-zA-Z0-9_!?])",
+      "patterns": [
+        {
+          "name": "entity.name.function.jikiscript",
+          "match": "([a-zA-Z][a-zA-Z0-9_!?]*)(?=[^a-zA-Z0-9_!?])"
+        }
+      ]
+    },
+    {
+      "begin": "([a-zA-Z]\\w*[!?]?)(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "2": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "name": "meta.function-call.jikiscript",
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "strings": {
+      "name": "string.quoted.double.jikiscript",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.jikiscript",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "params": {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.constant.jikiscript"
+        },
+        "2": {
+          "name": "variable.parameter.function.jikiscript"
+        }
+      },
+      "match": "\\G(([_a-zA-Z]\\w*))"
+    }
+  }
+}
