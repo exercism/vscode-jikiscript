@@ -3,7 +3,7 @@
   "publisher": "exercism",
   "displayName": "JikiScript",
   "description": "Language support for Exercism's bootcamp language JikiScript",
-  "icon": "media/favicon.png",
+  "icon": "media/icon.png",
   "galleryBanner": {
     "color": "#000cfe",
     "theme": "light"
