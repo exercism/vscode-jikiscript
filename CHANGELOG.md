@@ -4,6 +4,12 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.0]
+
+- Fixed `break`, `continue`, `next`, and `return` in nested contexts
+- Added support for drawing library
+- Fixed markdown support for `function`, `if`, `for each`
+
 ## [0.3.0]
 
 - Fixed `set` and `change` syntax to accept complex expressions in accessor syntax `e.g. variable[some expression]`
