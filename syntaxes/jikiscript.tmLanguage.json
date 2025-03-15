@@ -23,11 +23,6 @@
       "name": "meta.variable.assignment.jikiscript"
     },
     {
-      "comment": "contextual smart pair support for block parameters",
-      "match": "(?<!\\.)\\bdo\\b",
-      "name": "keyword.control.start-block.jikiscript"
-    },
-    {
       "match": "(?<!\\.)\\b(break|next|return|continue)\\b(?![?!])",
       "name": "keyword.control.pseudo-method.jikiscript"
     },
@@ -191,17 +186,17 @@
       },
       "patterns": [
         {
-          "begin": "\\G\\s+",
+          "begin": "\\G",
           "end": "\\s+(do)\\b",
           "endCaptures": {
             "1": {
               "name": "keyword.control.start-block.jikiscript"
             }
           },
+          "contentName": "meta.conditional.if.expression.jikiscript",
           "patterns": [
             {
-              "include": "#expression",
-              "name": "meta.conditional.if.expression.jikiscript"
+              "include": "#expression"
             }
           ]
         },
@@ -320,6 +315,10 @@
           "include": "#not-top-level"
         }
       ]
+    },
+    {
+      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
+      "name": "constant.numeric.jikiscript"
     },
     {
       "begin": "\"",
@@ -532,10 +531,10 @@
               "name": "keyword.control.start-block.jikiscript"
             }
           },
+          "contentName": "meta.conditional.if.expression.jikiscript",
           "patterns": [
             {
-              "include": "#expression",
-              "name": "meta.conditional.if.expression.jikiscript"
+              "include": "#expression"
             }
           ]
         },

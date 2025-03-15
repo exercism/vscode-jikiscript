@@ -4,6 +4,12 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.1]
+
+- Fix `do` detection for `if` and nested `if`
+- Fix `meta.conditional.if.expression.jikiscript` token on conditional expressions
+- Fix missing `constant.numeric.jikiscript` for number literals
+
 ## [0.2.0]
 
 - Added support for `my#function_name` in `function` definitions and function calls
