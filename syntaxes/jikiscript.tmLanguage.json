@@ -7,6 +7,7 @@
       "include": "#strings"
     },
     {
+      "match": "^\\s*(set|change)\\s*([a-z](?:[A-Za-z0-9_])*)(?:\\[(?:[a-z](?:[A-Za-z0-9_])*|[0-9]+)\\])*\\s*(to)\\b",
       "captures": {
         "1": {
           "name": "keyword.control.jikiscript"
@@ -18,21 +19,8 @@
           "name": "keyword.control.jikiscript"
         }
       },
-      "match": "^\\s*(set|change)\\s*([a-z](?:[A-Za-z0-9_])*)(?:\\[(?:[a-z](?:[A-Za-z0-9_])*|[0-9]+)\\])*\\s*(to)",
       "comment": "A local variable assignment",
       "name": "meta.variable.assignment.jikiscript"
-    },
-    {
-      "comment": "Mark as namespace separator if my followed by pound",
-      "match": "(my)(#)(?=[a-z])",
-      "captures": {
-        "1": {
-          "name": "punctuation.definition.constant.jikiscript"
-        },
-        "2": {
-          "name": "punctuation.separator.namespace.jikiscript"
-        }
-      }
     },
     {
       "comment": "contextual smart pair support for block parameters",
@@ -48,90 +36,290 @@
       "name": "constant.language.boolean.jikiscript"
     },
     {
-      "begin": "^(function)\\s+(.*?)\\s+(with)\\s+",
-      "end": "\\s+(do)",
+      "comment": "function definitions",
+      "begin": "^(function)\\s+",
+      "end": "\\b(end)\\b",
       "beginCaptures": {
         "1": {
-          "name": "keyword.control.function.jikiscript"
-        },
-        "2": {
-          "name": "entity.name.function.jikiscript"
-        },
-        "3": {
           "name": "keyword.control.function.jikiscript"
         }
       },
       "endCaptures": {
         "1": {
-          "name": "keyword.control.start-block.jikiscript"
+          "name": "keyword.control.end-block.jikiscript"
         }
       },
-      "name": "meta.function.method.with-arguments.jikiscript",
-      "patterns": [{
-        "begin": "(?=[_a-zA-Z])",
-        "end": "(?=(,|\\s+do))",
-        "patterns": [{
-          "include": "#params"
-        }]
-      }]
-    },
-    {
-      "match": "^(function)\\s+(.*?)\\s+(do)",
-      "captures": {
-        "1": {
-          "name": "keyword.control.function.jikiscript"
+      "name": "meta.function.jikiscript",
+      "patterns": [
+        {
+          "begin": "\\G",
+          "end": "\\b(do)",
+          "contentName": "meta.function.signature.jikiscript",
+          "patterns": [
+            {
+              "match": "\\G((my)(#))?(([a-z][_a-zA-Z0-9]*))\\s+(?=with|do)",
+              "captures": {
+                "1": {
+                  "name": "meta.function.namespace.jikiscript"
+                },
+                "2": {
+                  "name": "support.constant.my.jikiscript"
+                },
+                "3": {
+                  "name": "punctuation.separator.namespace.jikiscript"
+                },
+                "4": {
+                  "name": "meta.function.identifier.jikiscript"
+                },
+                "5": {
+                  "name": "entity.name.function.jikiscript"
+                }
+              }
+            },
+            {
+              "begin": "\\b(with)\\b",
+              "end": "\\s+(?=do\\b)",
+              "name": "meta.function.name",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.control.with.jikiscript"
+                }
+              },
+              "patterns": [
+                {
+                  "begin": "(?=[_a-zA-Z])",
+                  "end": "(?=(,|\\s+do))",
+                  "patterns": [
+                    {
+                      "include": "#params"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         },
-        "2": {
-          "name": "entity.name.function.jikiscript"
+        {
+          "include": "#not-top-level"
         },
-        "3": {
-          "name": "keyword.control.start-block.jikiscript"
+        {
+          "include": "$self"
         }
-      },
-      "name": "meta.function.method.without-arguments.jikiscript"
+      ]
     },
     {
-      "match": "(for)\\s+(each)\\s+(.*?)\\s+(in)\\s+(.*?)(?:\\s+(indexed\\s+by)\\s+(.*?))?\\s+(do)",
-      "captures": {
+      "comment": "for each enumeration",
+      "begin": "^\\s*((for)\\s+(each)\\s+(.*?)\\s+(in))\\b",
+      "end": "\\b((end))\\b",
+      "beginCaptures": {
         "1": {
-          "name": "keyword.control.jikiscript"
+          "name": "meta.enumerable.for-each.jikiscript"
         },
         "2": {
-          "name": "keyword.control.jikiscript"
+          "name": "keyword.control.enumerable.jikiscript"
         },
         "3": {
-          "name": "variable.other.enumerator.jikiscript"
+          "name": "keyword.control.enumerable.jikiscript"
         },
         "4": {
-          "name": "keyword.control.jikiscript"
+          "name": "variable.other.enumerable.current.jikiscript"
         },
         "5": {
-          "name": "variable.other.enumerable.jikiscript"
-        },
-        "6": {
-          "name": "keyword.control.jikiscript"
-        },
-        "7": {
-          "name": "variable.other.index.jikiscript"
-        },
-        "8": {
-          "name": "keyword.control.start-block.jikiscript"
+          "name": "keyword.control.enumerable.jikiscript"
         }
       },
-      "name": "meta.enumerable.for-each.jikiscript",
-      "patterns": [{
-        "include": "$self"
-
-      }]
+      "endCaptures": {
+        "1": {
+          "name": "meta.enumerable.for-each.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "\\G\\s+",
+          "end": "\\s+(do)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\b(indexed\\s+by)\\s+([a-z][_A-Za-z0-9]*)\\b",
+              "name": "meta.enumerable.indexed-by.jikiscript",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.enumerable.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.enumerable.index.jikiscript"
+                }
+              }
+            },
+            {
+              "include": "#expression",
+              "name": "meta.enumerable.subject.jikiscript"
+            }
+          ]
+        },
+        {
+          "include": "#not-top-level"
+        }
+      ]
     },
     {
-      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
-      "name": "constant.numeric.jikiscript"
+      "comment": "conditional statements",
+      "begin": "^\\s*((if|unless))\\s+",
+      "end": "\\b((end))\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.conditional.if.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "meta.conditional.if.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "\\G\\s+",
+          "end": "\\s+(do)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression",
+              "name": "meta.conditional.if.expression.jikiscript"
+            }
+          ]
+        },
+        {
+          "include": "#conditional-body"
+        }
+      ]
     },
     {
-      "comment": "everything being a reserved word, not a value and needing a 'end' is a..",
-      "match": "(?<!\\.)\\b(repeat|times|repeat_until_game_over|repeat_forever|for|indexed|by|each|in|with|to|return|if|else|unless|end)\\b(?![?!])",
-      "name": "keyword.control.jikiscript"
+      "comment": "repeat loop statement",
+      "begin": "^\\s*(repeat)\\s+(?=.*?\\s+times\\b)",
+      "end": "\\b(end)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.loop.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.loops.repeat.jikiscript",
+      "patterns": [
+        {
+          "begin": "\\G",
+          "end": "\\b((do))\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.loops.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "begin": "\\G",
+              "end": "\\s+(times)\\s+",
+              "endCaptures": {
+                "1": {
+                  "name": "keyword.control.loops.jikiscript"
+                }
+              },
+              "contentName": "meta.loops.repeat.times.jikiscript",
+              "patterns": [
+                {
+                  "include": "#expression"
+                }
+              ]
+            },
+            {
+              "match": "(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*))\\b\\s+",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.loops.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.loops.index.jikiscript"
+                },
+                "3": {
+                  "name": "invalid.illegal"
+                }
+              },
+              "name": "meta.loops.indexed-by.jikiscript"
+            }
+          ]
+        },
+        {
+          "include": "#not-top-level"
+        }
+      ]
+    },
+    {
+      "comment": "special loop statements",
+      "begin": "^\\s*(repeat_forever|repeat_until_game_over)\\s+",
+      "end": "\\b(end)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.loop.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.loops.repeat-special.jikiscript",
+      "patterns": [
+        {
+          "begin": "\\G(?=(?:do)|(?:indexed\\s+by\\s+[a-z][_A-Za-z0-9]*\\s+do)\\s+)",
+          "end": "\\b(do)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          },
+          "name": "meta.loops.repeat.signature.jikiscript",
+          "patterns": [
+            {
+              "begin": "(?:(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*)))",
+              "end": "\\s+(?=\\bdo)",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.control.loops.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.loops.index.jikiscript"
+                },
+                "3": {
+                  "name": "invalid.illegal"
+                }
+              },
+              "name": "meta.loops.indexed-by.jikiscript"
+            }
+          ]
+        },
+        {
+          "include": "#not-top-level"
+        }
+      ]
     },
     {
       "begin": "\"",
@@ -165,12 +353,12 @@
             }
           },
           "end": "\\n",
-          "name": "comment.line.number-sign.jikiscript"
+          "name": "comment.line.double-slash.jikiscript"
         }
       ]
     },
     {
-      "match": "=>",
+      "match": "(?<=\"):",
       "name": "punctuation.separator.key-value"
     },
     {
@@ -190,10 +378,6 @@
       "name": "keyword.operator.arithmetic.jikiscript"
     },
     {
-      "match": "to",
-      "name": "keyword.operator.assignment.jikiscript"
-    },
-    {
       "match": ",",
       "name": "punctuation.separator.object.jikiscript"
     },
@@ -210,9 +394,10 @@
       "name": "punctuation.section.function.jikiscript"
     },
     {
-      "name": "meta.function-call.jikiscript",
-      "begin": "(?<=[^\\.]\\.|::)(?=[a-zA-Z][a-zA-Z0-9_!?]*[^a-zA-Z0-9_!?])",
+      "comment": "object method call",
+      "begin": "(?<=[^\\.]\\.)(?=[a-zA-Z][a-zA-Z0-9_!?]*[^a-zA-Z0-9_!?])",
       "end": "(?<=[a-zA-Z0-9_!?])(?=[^a-zA-Z0-9_!?])",
+      "name": "meta.method-call.jikiscript",
       "patterns": [
         {
           "name": "entity.name.function.jikiscript",
@@ -220,17 +405,28 @@
         }
       ]
     },
+    { "include": "#built-in-functions" },
     {
-      "begin": "([a-zA-Z]\\w*[!?]?)(\\()",
+      "comment": "function call",
+      "begin": "((my)(#))?([a-zA-Z]\\w*[!?]?)(\\()",
+      "end": "(\\))",
       "beginCaptures": {
         "1": {
-          "name": "entity.name.function.jikiscript"
+          "name": "meta.function.namespace.jikiscript"
         },
         "2": {
+          "name": "support.constant.my.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.separator.namespace.jikiscript"
+        },
+        "4": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "5": {
           "name": "punctuation.section.function.jikiscript"
         }
       },
-      "end": "(\\))",
       "endCaptures": {
         "1": {
           "name": "punctuation.section.function.jikiscript"
@@ -239,9 +435,13 @@
       "name": "meta.function-call.jikiscript",
       "patterns": [
         {
-          "include": "$self"
+          "include": "#expression"
         }
       ]
+    },
+    {
+      "comment": "everything unmatched that's known is illegal",
+      "include": "#illegal"
     }
   ],
   "repository": {
@@ -257,6 +457,7 @@
       ]
     },
     "params": {
+      "match": "\\G(([_a-zA-Z]\\w*))",
       "captures": {
         "1": {
           "name": "punctuation.definition.constant.jikiscript"
@@ -264,8 +465,107 @@
         "2": {
           "name": "variable.parameter.function.jikiscript"
         }
+      }
+    },
+    "illegal": {
+      "comment": "everything being a reserved word used outside of context is illegal",
+      "match": "\\b(repeat|times|repeat_until_game_over|repeat_forever|for|indexed|by|each|in|with|to|return|if|else|unless|end|do)\\b",
+      "name": "invalid.illegal.jikiscript"
+    },
+    "built-in-functions": {
+      "comment": "built in library, sometimes conditional to the exercise",
+      "begin": "\\b((join|concatenate|push|concat|number_to_string|string_to_number|to_upper_case|to_lower_case|has_key|keys|min|max))(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "support.function.jikiscript"
+        },
+        "2": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.section.function.jikiscript"
+        }
       },
-      "match": "\\G(([_a-zA-Z]\\w*))"
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ],
+      "name": "meta.function-call.jikiscript"
+    },
+    "expression": {
+      "patterns": [
+        {
+          "comment": "nested functions are illegal",
+          "match": "\\bfunction\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+        {
+          "include": "#illegal"
+        },
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    "conditional-body": {
+      "patterns": [
+        {
+          "begin": "\\b(else)\\s+((if))\\s+",
+          "end": "\\s+(do)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.conditional.jikiscript"
+            },
+            "2": {
+              "name": "keyword.control.conditional.jikiscript"
+            }
+          },
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression",
+              "name": "meta.conditional.if.expression.jikiscript"
+            }
+          ]
+        },
+        {
+          "match": "\\b(else)\\s+(do)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.conditional.jikiscript"
+            },
+            "2": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          }
+        },
+        {
+          "include": "#not-top-level"
+        }
+      ]
+    },
+    "not-top-level": {
+      "patterns": [
+        {
+          "comment": "nested functions are illegal",
+          "match": "\\bfunction\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+        {
+          "include": "$self"
+        }
+      ]
     }
   }
 }

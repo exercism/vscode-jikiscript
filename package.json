@@ -8,7 +8,7 @@
     "color": "#000cfe",
     "theme": "dark"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "preview": true,
   "author": {
     "email": "derk-jan+git@karrenbeld.info",
@@ -23,7 +23,7 @@
     "url": "https://github.com/exercism/vscode-jikiscript.git"
   },
   "engines": {
-    "vscode": "^1.98.0"
+    "vscode": "^1.94.0"
   },
   "categories": [
     "Programming Languages",
