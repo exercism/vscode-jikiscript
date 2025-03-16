@@ -4,76 +4,7 @@
   "scopeName": "source.jikiscript",
   "patterns": [
     {
-      "include": "#literals"
-    },
-    {
-      "include": "#comments"
-    },
-    {
-      "include": "#statements.class.definition"
-    },
-    {
-      "include": "#statements.function.definition"
-    },
-    {
-      "include": "#statements.variable.assignment"
-    },
-    {
-      "include": "#statements.for-each"
-    },
-    {
-      "include": "#statements.conditional"
-    },
-    {
-      "include": "#statements.loop"
-    },
-    {
-      "include": "#statements.instance-creation"
-    },
-    {
-      "include": "#statements.method-call"
-    },
-    { "include": "#support.functions" },
-    { "include": "#support.functions.drawing" },
-    {
-      "comment": "function call",
-      "begin": "((my)(#))?([a-zA-Z]\\w*[!?]?)(\\()",
-      "end": "(\\))",
-      "beginCaptures": {
-        "1": {
-          "name": "meta.function.namespace.jikiscript"
-        },
-        "2": {
-          "name": "support.constant.my.jikiscript"
-        },
-        "3": {
-          "name": "punctuation.separator.namespace.jikiscript"
-        },
-        "4": {
-          "name": "entity.name.function.jikiscript"
-        },
-        "5": {
-          "name": "punctuation.section.function.jikiscript"
-        }
-      },
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.section.function.jikiscript"
-        }
-      },
-      "name": "meta.function-call.jikiscript",
-      "patterns": [
-        {
-          "include": "#expression"
-        }
-      ]
-    },
-    {
-      "include": "#punctuation"
-    },
-    {
-      "comment": "everything unmatched that's known is illegal",
-      "include": "#illegal"
+      "include": "#scopes.top"
     }
   ],
   "repository": {
@@ -313,17 +244,17 @@
       ],
       "name": "meta.function-call.jikiscript"
     },
-    "statements.variable.assignment": {
+    "statements.variable.assignment.local": {
       "patterns": [
         {
-          "include": "#statements.variable.declaration"
+          "include": "#statements.variable.declaration.local"
         },
         {
-          "include": "#statements.variable.reassignment"
+          "include": "#statements.variable.reassignment.local"
         }
       ]
     },
-    "statements.variable.declaration": {
+    "statements.variable.declaration.local": {
       "begin": "^\\s*(set)\\s+",
       "end": "\\b(to)\\b",
       "beginCaptures": {
@@ -371,7 +302,8 @@
         }
       ]
     },
-    "statements.variable.instance.initialization": {
+    "statements.variable.initialization.instance": {
+      "comment": "A local variable declaration with assignment inside class definitions",
       "begin": "^\\s*(set)\\s+",
       "end": "\\b(to)\\b",
       "beginCaptures": {
@@ -385,7 +317,6 @@
           "name": "keyword.control.jikiscript"
         }
       },
-      "comment": "A local variable declaration with assignment",
       "name": "meta.variable.assignment.jikiscript",
       "patterns": [
         {
@@ -419,7 +350,8 @@
         }
       ]
     },
-    "statements.variable.reassignment": {
+    "statements.variable.reassignment.local": {
+      "comment": "A local variable declaration with assignment",
       "begin": "^\\s*(change)\\s+",
       "end": "\\b(to)\\b",
       "beginCaptures": {
@@ -433,7 +365,6 @@
           "name": "keyword.control.jikiscript"
         }
       },
-      "comment": "A local variable declaration with assignment",
       "name": "meta.variable.assignment.jikiscript",
       "patterns": [
         {
@@ -467,7 +398,8 @@
         }
       ]
     },
-    "statements.variable.instance.reassignment": {
+    "statements.variable.reassignment.instance": {
+      "comment": "A local variable declaration with assignment inside class definitions",
       "begin": "^\\s*(change)\\s+",
       "end": "\\b(to)\\b",
       "beginCaptures": {
@@ -481,7 +413,6 @@
           "name": "keyword.control.jikiscript"
         }
       },
-      "comment": "A local variable declaration with assignment",
       "name": "meta.variable.assignment.jikiscript",
       "patterns": [
         {
@@ -743,15 +674,7 @@
           ]
         },
         {
-          "comment": "directly nested loop keywords are illegal",
-          "match": "\\bbreak|continue|next\\b",
-          "name": "invalid.illegal.jikiscript"
-        },
-        {
-          "include": "#control.functions"
-        },
-        {
-          "include": "#not-top-level"
+          "include": "#scopes.function"
         }
       ]
     },
@@ -812,10 +735,43 @@
         }
       ]
     },
+    "statements.function-call": {
+      "comment": "function call",
+      "begin": "((my)(#))?([a-zA-Z]\\w*[!?]?)(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.function.namespace.jikiscript"
+        },
+        "2": {
+          "name": "support.constant.my.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.separator.namespace.jikiscript"
+        },
+        "4": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "5": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "name": "meta.function-call.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ]
+    },
     "statements.method-call": {
       "comment": "method call",
-      "begin": "(?<=[^\\.]\\.)(?=[a-zA-Z][a-zA-Z0-9_!?]*[^a-zA-Z0-9_!?])",
-      "end": "(?<=[a-zA-Z0-9_!?])(?=[^a-zA-Z0-9_!?])",
+      "begin": "(?<=[^\\.]\\.)(?=[a-zA-Z][a-zA-Z0-9_]*\\()",
+      "end": "\\(",
       "name": "meta.method-call.jikiscript",
       "patterns": [
         {
@@ -827,12 +783,12 @@
     "statements.instance.method-call": {
       "comment": "object instance method call",
       "begin": "(?<![_\\.#])\\b((this)\\.)(?=[a-zA-Z][a-zA-Z0-9_!?]*\\()",
+      "end": "\\(",
       "beginCaptures": {
         "1": {
           "name": "variable.language.this.jikiscript"
         }
       },
-      "end": "\\(",
       "name": "meta.method-call.jikiscript",
       "patterns": [
         {
@@ -841,7 +797,439 @@
         }
       ]
     },
-    "statements.for-each": {
+    "statements.conditional.top": {
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-top.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.top"
+        },
+        {
+          "include": "#statements.conditional.unless.top"
+        },
+        {
+          "include": "#statements.conditional.body.top"
+        }
+      ]
+    },
+    "statements.conditional.top-loop": {
+      "comment": "conditional statements with access to loop keywords",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-top-loop.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.top"
+        },
+        {
+          "include": "#statements.conditional.unless.top"
+        },
+        {
+          "include": "#statements.conditional.body.top-loop"
+        }
+      ]
+    },
+    "statements.conditional.function": {
+      "comment": "conditional statements with access to function keywords",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-function.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.function"
+        }
+      ]
+    },
+    "statements.conditional.function-loop": {
+      "comment": "conditional statements with access to function and loop keywords",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-function-loop.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.function-loop"
+        }
+      ]
+    },
+    "statements.conditional.constructor": {
+      "comment": "conditional statements with access to this references and method keywords, in the constructor",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-constructor.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.constructor"
+        }
+      ]
+    },
+    "statements.conditional.constructor-loop": {
+      "comment": "conditional statements with access to this references and method & loop keywords, in the constructor",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-constructor-loop.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.constructor-loop"
+        }
+      ]
+    },
+    "statements.conditional.method": {
+      "comment": "conditional statements with access to this references and method keywords, in a method",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-method.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.method"
+        }
+      ]
+    },
+    "statements.conditional.method-loop": {
+      "comment": "conditional statements with access to this references and method & loop keywords, in a method",
+      "begin": "^\\s*(?=(?:if|unless)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-method-loop.conditional.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.conditional.if.instance"
+        },
+        {
+          "include": "#statements.conditional.unless.instance"
+        },
+        {
+          "include": "#statements.conditional.body.method-loop"
+        }
+      ]
+    },
+    "statements.conditional.if.top": {
+      "comment": "conditional if statements",
+      "begin": "\\b(if)\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-top.conditional.if.jikiscript",
+      "contentName": "meta.scope-top.conditional.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.top"
+        }
+      ]
+    },
+    "statements.conditional.if.instance": {
+      "comment": "conditional if statements with access to this references",
+      "begin": "\\b(if)\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-instance.conditional.if.jikiscript",
+      "contentName": "meta.conditional.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ]
+    },
+    "statements.conditional.unless.top": {
+      "comment": "conditional unless statements",
+      "begin": "\\b(unless)\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-top.conditional.unless.jikiscript",
+      "contentName": "meta.scope-top.conditional.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.top"
+        }
+      ]
+    },
+    "statements.conditional.unless.instance": {
+      "comment": "conditional unless statements with access to this references",
+      "begin": "\\b(unless)\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-instance.conditional.unless.jikiscript",
+      "contentName": "meta.conditional.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ]
+    },
+    "statements.conditional.body.top": {
+      "comment": "body of a conditional statement (between do and end)",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.top"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.top.nested"
+        }
+      ]
+    },
+    "statements.conditional.body.top-loop": {
+      "comment": "body of a conditional statement (between do and end) with access to loop keywords",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.top.loop"
+        }
+      ]
+    },
+    "statements.conditional.body.constructor": {
+      "comment": "body of a conditional statement (between do and end) with access to this references, in the constructor",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.constructor.nested"
+        }
+      ]
+    },
+    "statements.conditional.body.constructor-loop": {
+      "comment": "body of a conditional statement (between do and end) with access to this references and loop keywords, in the constructor",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.constructor.loop"
+        }
+      ]
+    },
+    "statements.conditional.body.method": {
+      "comment": "body of a conditional statement (between do and end) with access to this references, in any method",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.method.nested"
+        }
+      ]
+    },
+    "statements.conditional.body.method-loop": {
+      "comment": "body of a conditional statement (between do and end) with access to this references and loop keywords, in any method",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.method.loop"
+        }
+      ]
+    },
+    "statements.conditional.body.function": {
+      "comment": "body of a conditional statement (between do and end) with access to function keywords",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.function.nested"
+        }
+      ]
+    },
+    "statements.conditional.body.function-loop": {
+      "comment": "body of a conditional statement (between do and end) with access to function and loop keywords",
+      "patterns": [
+        {
+          "include": "#statements.conditional.else-if.instance"
+        },
+        {
+          "include": "#statements.conditional.else.any"
+        },
+        {
+          "include": "#scopes.function.loop"
+        }
+      ]
+    },
+    "statements.conditional.else-if.top": {
+      "begin": "\\b(else)\\s+((if))\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "contentName": "meta.scope-top.conditional.if.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.top"
+        }
+      ]
+    },
+    "statements.conditional.else-if.instance": {
+      "begin": "\\b(else)\\s+((if))\\s+",
+      "end": "\\s+(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.conditional.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "contentName": "meta.scope-instance.conditional.if.expression.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ]
+    },
+    "statements.conditional.else.any": {
+      "match": "\\b(else)\\s+(do)\\b",
+      "captures": {
+        "1": {
+          "name": "keyword.control.conditional.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      }
+    },
+    "statements.for-each.top": {
       "comment": "for each enumeration",
       "begin": "^\\s*(for)\\s+(each)\\s+",
       "end": "(?<![_\\.#])\\b(end)\\b",
@@ -861,7 +1249,7 @@
           "name": "keyword.control.end-block.jikiscript"
         }
       },
-      "name": "meta.enumerable.for-each.jikiscript",
+      "name": "meta.scope-top.enumerable.for-each.jikiscript",
       "patterns": [
         {
           "match": "\\G([a-z][_A-Za-z0-9]*)\\s+",
@@ -887,7 +1275,7 @@
           "patterns": [
             {
               "match": "\\b(indexed\\s+by)\\s+([a-z][_A-Za-z0-9]*)\\b",
-              "name": "meta.enumerable.indexed-by.jikiscript",
+              "name": "meta.scope-top.enumerable.indexed-by.jikiscript",
               "captures": {
                 "1": {
                   "name": "keyword.control.enumerable.jikiscript"
@@ -898,43 +1286,52 @@
               }
             },
             {
-              "include": "#expression",
+              "include": "#expression.top",
               "name": "meta.enumerable.subject.jikiscript"
             }
           ]
         },
         {
-          "include": "#not-top-level"
+          "include": "#scopes.top.loop"
         }
       ]
     },
-    "statements.conditional": {
-      "patterns": [
-        {
-          "include": "#statements.if"
-        },
-        {
-          "include": "#statements.unless"
-        }
-      ]
-    },
-    "statements.if": {
-      "comment": "conditional if statements",
-      "begin": "^\\s*(?=(?:if)\\s+)",
+    "statements.for-each.constructor": {
+      "comment": "for each enumeration with access to this references and method keywords, in the constructor",
+      "begin": "^\\s*(for)\\s+(each)\\s+",
       "end": "(?<![_\\.#])\\b(end)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "3": {
+          "name": "variable.other.enumerable.current.jikiscript"
+        }
+      },
       "endCaptures": {
         "1": {
           "name": "keyword.control.end-block.jikiscript"
         }
       },
-      "name": "meta.conditional.if.jikiscript",
+      "name": "meta.scope-constructor.enumerable.for-each.jikiscript",
       "patterns": [
         {
-          "begin": "\\b(if)\\s+",
+          "match": "\\G([a-z][_A-Za-z0-9]*)\\s+",
+          "captures": {
+            "1": {
+              "name": "variable.name.jikiscript"
+            }
+          }
+        },
+        {
+          "begin": "(in)\\s+",
           "end": "\\s+(do)\\b",
           "beginCaptures": {
             "1": {
-              "name": "keyword.control.conditional.jikiscript"
+              "name": "keyword.control.enumerable.jikiscript"
             }
           },
           "endCaptures": {
@@ -942,35 +1339,66 @@
               "name": "keyword.control.start-block.jikiscript"
             }
           },
-          "contentName": "meta.conditional.expression.jikiscript",
           "patterns": [
             {
-              "include": "#expression"
+              "match": "\\b(indexed\\s+by)\\s+([a-z][_A-Za-z0-9]*)\\b",
+              "name": "meta.scope-constructor.enumerable.indexed-by.jikiscript",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.enumerable.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.enumerable.index.jikiscript"
+                }
+              }
+            },
+            {
+              "include": "#expression.instance",
+              "name": "meta.enumerable.subject.jikiscript"
             }
           ]
         },
         {
-          "include": "#conditional-body"
+          "include": "#scopes.constructor.loop"
         }
       ]
     },
-    "statements.unless": {
-      "comment": "conditional unless statements",
-      "begin": "^\\s*(?=(?:unless)\\s+)",
+    "statements.for-each.method": {
+      "comment": "for each enumeration with access to this references and method keywords, in any method",
+      "begin": "^\\s*(for)\\s+(each)\\s+",
       "end": "(?<![_\\.#])\\b(end)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "3": {
+          "name": "variable.other.enumerable.current.jikiscript"
+        }
+      },
       "endCaptures": {
         "1": {
           "name": "keyword.control.end-block.jikiscript"
         }
       },
-      "name": "meta.conditional.unless.jikiscript",
+      "name": "meta.scope-method.enumerable.for-each.jikiscript",
       "patterns": [
         {
-          "begin": "\\b(unless)\\s+",
+          "match": "\\G([a-z][_A-Za-z0-9]*)\\s+",
+          "captures": {
+            "1": {
+              "name": "variable.name.jikiscript"
+            }
+          }
+        },
+        {
+          "begin": "(in)\\s+",
           "end": "\\s+(do)\\b",
           "beginCaptures": {
             "1": {
-              "name": "keyword.control.conditional.jikiscript"
+              "name": "keyword.control.enumerable.jikiscript"
             }
           },
           "endCaptures": {
@@ -978,32 +1406,188 @@
               "name": "keyword.control.start-block.jikiscript"
             }
           },
-          "contentName": "meta.conditional.expression.jikiscript",
           "patterns": [
             {
-              "include": "#expression"
+              "match": "\\b(indexed\\s+by)\\s+([a-z][_A-Za-z0-9]*)\\b",
+              "name": "meta.scope-method.enumerable.indexed-by.jikiscript",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.enumerable.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.enumerable.index.jikiscript"
+                }
+              }
+            },
+            {
+              "include": "#expression.instance",
+              "name": "meta.enumerable.subject.jikiscript"
             }
           ]
         },
         {
-          "include": "#conditional-body"
+          "include": "#scopes.method.loop"
         }
       ]
     },
-    "statements.loop": {
+    "statements.for-each.function": {
+      "comment": "for each enumeration with access to function keywords",
+      "begin": "^\\s*(for)\\s+(each)\\s+",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "2": {
+          "name": "keyword.control.enumerable.jikiscript"
+        },
+        "3": {
+          "name": "variable.other.enumerable.current.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-function.enumerable.for-each.jikiscript",
       "patterns": [
         {
-          "include": "#statements.loop.repeat.times"
+          "match": "\\G([a-z][_A-Za-z0-9]*)\\s+",
+          "captures": {
+            "1": {
+              "name": "variable.name.jikiscript"
+            }
+          }
         },
         {
-          "include": "#statements.loop.repeat.support"
+          "begin": "(in)\\s+",
+          "end": "\\s+(do)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.enumerable.jikiscript"
+            }
+          },
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.start-block.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\b(indexed\\s+by)\\s+([a-z][_A-Za-z0-9]*)\\b",
+              "name": "meta.scope-function.enumerable.indexed-by.jikiscript",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.enumerable.jikiscript"
+                },
+                "2": {
+                  "name": "variable.other.enumerable.index.jikiscript"
+                }
+              }
+            },
+            {
+              "include": "#expression.top",
+              "name": "meta.enumerable.subject.jikiscript"
+            }
+          ]
+        },
+        {
+          "include": "#scopes.function.loop"
         }
       ]
     },
-    "statements.loop.repeat.times": {
+    "statements.loop.top": {
+      "begin": "^\\s*(?=(?:repeat|repeat_forever|repeat_until_game_over)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-top.loop.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.loop.repeat.support.any"
+        },
+        {
+          "include": "#statements.loop.repeat.times.top"
+        },
+        {
+          "include": "#scopes.top.loop"
+        }
+      ]
+    },
+    "statements.loop.constructor": {
+      "comment": "repeat loops with access to this references and method keywords, in the constructor",
+      "begin": "^\\s*(?=(?:repeat|repeat_forever|repeat_until_game_over)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-constructor.loop.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.loop.repeat.support.any"
+        },
+        {
+          "include": "#statements.loop.repeat.times.instance"
+        },
+        {
+          "include": "#scopes.constructor.loop"
+        }
+      ]
+    },
+    "statements.loop.method": {
+      "comment": "repeat loops with access to this references and method keywords, in any method",
+      "begin": "^\\s*(?=(?:repeat|repeat_forever|repeat_until_game_over)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-method.loop.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.loop.repeat.support.any"
+        },
+        {
+          "include": "#statements.loop.repeat.times.instance"
+        },
+        {
+          "include": "#scopes.method.loop"
+        }
+      ]
+    },
+    "statements.loop.function": {
+      "comment": "repeat loops with access to function keywords",
+      "begin": "^\\s*(?=(?:repeat|repeat_forever|repeat_until_game_over)\\s+)",
+      "end": "(?<![_\\.#])\\b(end)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end-block.jikiscript"
+        }
+      },
+      "name": "meta.scope-function.loop.jikiscript",
+      "patterns": [
+        {
+          "include": "#statements.loop.repeat.times.top"
+        },
+        {
+          "include": "#statements.loop.repeat.support.any"
+        },
+        {
+          "include": "#scopes.function.loop"
+        }
+      ]
+    },
+    "statements.loop.repeat.times.top": {
       "comment": "repeat n times loop statement",
-      "begin": "^\\s*(repeat)\\s+(?=.*?\\s+times\\b)",
-      "end": "(?<![_\\.#])\\b(end)\\b",
+      "begin": "\\G(repeat)\\s+",
+      "end": "\\b(do)\\b",
       "beginCaptures": {
         "1": {
           "name": "keyword.control.loop.jikiscript"
@@ -1011,64 +1595,91 @@
       },
       "endCaptures": {
         "1": {
-          "name": "keyword.control.end-block.jikiscript"
+          "name": "keyword.control.start-block.jikiscript"
         }
       },
-      "name": "meta.loops.repeat.jikiscript",
       "patterns": [
         {
           "begin": "\\G",
-          "end": "\\b((do))\\b",
-          "captures": {
+          "end": "\\b(times)\\s+",
+          "endCaptures": {
             "1": {
-              "name": "keyword.control.loops.jikiscript"
+              "name": "keyword.control.loop.jikiscript"
             }
           },
           "patterns": [
             {
-              "begin": "\\G",
-              "end": "\\s+(times)\\s+",
-              "endCaptures": {
-                "1": {
-                  "name": "keyword.control.loops.jikiscript"
-                }
-              },
-              "contentName": "meta.loops.repeat.times.jikiscript",
-              "patterns": [
-                {
-                  "include": "#expression"
-                }
-              ]
-            },
-            {
-              "match": "(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*))\\b\\s+",
-              "captures": {
-                "1": {
-                  "name": "keyword.control.loops.jikiscript"
-                },
-                "2": {
-                  "name": "variable.other.loops.index.jikiscript"
-                },
-                "3": {
-                  "name": "invalid.illegal"
-                }
-              },
-              "name": "meta.loops.indexed-by.jikiscript"
+              "include": "#expression.top"
             }
           ]
         },
         {
-          "include": "#control.enumeration"
-        },
-        {
-          "include": "#not-top-level"
+          "match": "(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*))\\b\\s+",
+          "captures": {
+            "1": {
+              "name": "keyword.control.loops.jikiscript"
+            },
+            "2": {
+              "name": "variable.other.loops.index.jikiscript"
+            },
+            "3": {
+              "name": "invalid.illegal"
+            }
+          },
+          "name": "meta.loops.indexed-by.jikiscript"
         }
       ]
     },
-    "statements.loop.repeat.support": {
+    "statements.loop.repeat.times.instance": {
+      "comment": "repeat n times loop statement with access to this references and method keywords",
+      "begin": "\\G(repeat)\\s+",
+      "end": "\\b(do)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.loop.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.start-block.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "\\G",
+          "end": "\\b(times)\\s+",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.loop.jikiscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression.instance"
+            }
+          ]
+        },
+        {
+          "match": "(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*))\\b\\s+",
+          "captures": {
+            "1": {
+              "name": "keyword.control.loops.jikiscript"
+            },
+            "2": {
+              "name": "variable.other.loops.index.jikiscript"
+            },
+            "3": {
+              "name": "invalid.illegal"
+            }
+          },
+          "name": "meta.loops.indexed-by.jikiscript"
+        }
+      ]
+    },
+    "statements.loop.repeat.support.any": {
       "comment": "special loop statements",
-      "begin": "^\\s*(repeat_forever|repeat_until_game_over)\\s+",
-      "end": "(?<![_\\.#])\\b(end)\\b",
+      "begin": "\\G(repeat_forever|repeat_until_game_over)\\s+",
+      "end": "\\b(do)\\b",
       "beginCaptures": {
         "1": {
           "name": "keyword.control.loop.jikiscript"
@@ -1082,44 +1693,25 @@
       "name": "meta.loops.repeat-special.jikiscript",
       "patterns": [
         {
-          "begin": "\\G(?=(?:do)|(?:indexed\\s+by\\s+[a-z][_A-Za-z0-9]*\\s+do)\\s+)",
-          "end": "\\b(do)\\b",
-          "endCaptures": {
+          "match": "(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*))\\b\\s+",
+          "captures": {
             "1": {
-              "name": "keyword.control.start-block.jikiscript"
+              "name": "keyword.control.loops.jikiscript"
+            },
+            "2": {
+              "name": "variable.other.loops.index.jikiscript"
+            },
+            "3": {
+              "name": "invalid.illegal"
             }
           },
-          "name": "meta.loops.repeat.signature.jikiscript",
-          "patterns": [
-            {
-              "begin": "(?:(indexed\\s+by)\\s+((do)|(?:[a-z][_A-Za-z0-9]*)))",
-              "end": "\\s+(?=\\bdo)",
-              "beginCaptures": {
-                "1": {
-                  "name": "keyword.control.loops.jikiscript"
-                },
-                "2": {
-                  "name": "variable.other.loops.index.jikiscript"
-                },
-                "3": {
-                  "name": "invalid.illegal"
-                }
-              },
-              "name": "meta.loops.indexed-by.jikiscript"
-            }
-          ]
-        },
-        {
-          "include": "#control.enumeration"
-        },
-        {
-          "include": "#not-top-level"
+          "name": "meta.loops.indexed-by.jikiscript"
         }
       ]
     },
     "property-access": {
       "comment": "object property access",
-      "begin": "\\b((this)\\.)(?=[a-zA-Z][a-zA-Z0-9_!?]*(?=[^a-zA-Z0-9_!?\\(]))",
+      "begin": "\\b((this)\\.)(?=[a-zA-Z][a-zA-Z0-9_]*(?=[^a-zA-Z0-9_\\(]))",
       "beginCaptures": {
         "1": {
           "name": "variable.language.this.jikiscript"
@@ -1134,112 +1726,405 @@
         }
       ]
     },
-    "expression": {
+    "this-access": {
+      "comment": "this access",
+      "match": "\\b((this)\\.)(?=[a-zA-Z][a-zA-Z0-9_])",
+      "captures": {
+        "1": {
+          "name": "variable.language.this.jikiscript"
+        }
+      }
+    },
+    "expression.top": {
+      "comment": "generic expression that disallows this references",
       "patterns": [
+        { "include": "#literals" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        { "include": "#illegal" }
+      ]
+    },
+    "expression.instance": {
+      "comment": "generic expression that allows this references",
+      "patterns": [
+        { "include": "#this-access" },
+        { "include": "#literals" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        { "include": "#illegal" }
+      ]
+    },
+    "expression": {
+      "comment": "generic expression",
+      "patterns": [
+        { "include": "#literals" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        { "include": "#illegal" }
+      ]
+    },
+    "scopes.top": {
+      "patterns": [
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.class.definition" },
+        { "include": "#statements.function.definition" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.top" },
+        { "include": "#statements.conditional.top" },
+        { "include": "#statements.loop.top" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "comment": "nested functions are illegal",
-          "match": "\\bfunction\\b",
-          "name": "invalid.illegal.jikiscript"
-        },
-        {
+          "comment": "everything unmatched that's known is illegal",
           "include": "#illegal"
-        },
-        {
-          "include": "$self"
         }
       ]
     },
-    "conditional-body": {
+    "scopes.function": {
       "patterns": [
         {
-          "begin": "\\b(else)\\s+((if))\\s+",
-          "end": "\\s+(do)\\b",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.control.conditional.jikiscript"
-            },
-            "2": {
-              "name": "keyword.control.conditional.jikiscript"
-            }
-          },
-          "endCaptures": {
-            "1": {
-              "name": "keyword.control.start-block.jikiscript"
-            }
-          },
-          "contentName": "meta.conditional.if.expression.jikiscript",
-          "patterns": [
-            {
-              "include": "#expression"
-            }
-          ]
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.function" },
+        { "include": "#statements.conditional.function" },
+        { "include": "#statements.loop.function" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "match": "\\b(else)\\s+(do)\\b",
-          "captures": {
-            "1": {
-              "name": "keyword.control.conditional.jikiscript"
-            },
-            "2": {
-              "name": "keyword.control.start-block.jikiscript"
-            }
-          }
-        },
-        {
-          "include": "#not-top-level"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
         }
       ]
     },
     "scopes.constructor": {
       "patterns": [
         {
-          "include": "#statements.variable.instance.initialization"
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#statements.variable.initialization.instance" },
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.constructor" },
+        { "include": "#statements.conditional.constructor" },
+        { "include": "#statements.loop.constructor" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "include": "#statements.variable.instance.reassignment"
-        },
-        {
-          "include": "#statements.instance.method-call"
-        },
-        {
-          "include": "#property-access"
-        },
-        {
-          "include": "#not-top-level"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
         }
       ]
     },
     "scopes.method": {
       "patterns": [
         {
-          "include": "#statements.variable.instance.reassignment"
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.method" },
+        { "include": "#statements.conditional.method" },
+        { "include": "#statements.loop.method" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "include": "#statements.instance.method-call"
-        },
-        {
-          "include": "#property-access"
-        },
-        {
-          "include": "#not-top-level"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
         }
       ]
     },
-    "not-top-level": {
+    "scopes.top.loop": {
       "patterns": [
         {
-          "comment": "nested functions are illegal",
-          "match": "\\bfunction\\b",
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
           "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#control.enumeration" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.top" },
+        { "include": "#statements.conditional.top-loop" },
+        { "include": "#statements.loop.top" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "include": "#control.enumeration"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.top.nested": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.top" },
+        { "include": "#statements.conditional.top" },
+        { "include": "#statements.top.loop" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "include": "#control.functions"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.constructor.loop": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
         },
+
+        { "include": "#statements.variable.initialization.instance" },
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+
+        { "include": "#control.enumeration" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.constructor" },
+        { "include": "#statements.conditional.constructor-loop" },
+        { "include": "#statements.loop.constructor" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
         {
-          "include": "$self"
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.constructor.nested": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+
+        { "include": "#statements.variable.initialization.instance" },
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.constructor.for-each" },
+        { "include": "#statements.constructor.loop.conditional" },
+        { "include": "#statements.constructor.loop" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        {
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.method.loop": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+        { "include": "#control.enumeration" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.method" },
+        { "include": "#statements.conditional.method-loop" },
+        { "include": "#statements.loop.method" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        {
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.method.nested": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+
+        { "include": "#statements.variable.reassignment.instance" },
+        { "include": "#statements.instance.method-call" },
+        { "include": "#property-access" },
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.method.for-each" },
+        { "include": "#statements.method.loop.conditional" },
+        { "include": "#statements.method.loop" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        {
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.function.loop": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+
+        { "include": "#control.enumeration" },
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.function" },
+        { "include": "#statements.conditional.function-loop" },
+        { "include": "#statements.loop.function" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        {
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
+        }
+      ]
+    },
+    "scopes.function.nested": {
+      "patterns": [
+        {
+          "comment": "nested functions or methods or class constructs are illegal",
+          "match": "\\bfunction|class|private|public|constructor|property|method\\b",
+          "name": "invalid.illegal.jikiscript"
+        },
+
+        { "include": "#control.functions" },
+
+        { "include": "#literals" },
+        { "include": "#comments" },
+        { "include": "#statements.variable.assignment.local" },
+        { "include": "#statements.for-each.function" },
+        { "include": "#statements.conditional.function" },
+        { "include": "#statements.loop.function" },
+        { "include": "#statements.instance-creation" },
+        { "include": "#statements.method-call" },
+        { "include": "#support.functions" },
+        { "include": "#support.functions.drawing" },
+        { "include": "#statements.function-call" },
+        { "include": "#punctuation" },
+        {
+          "comment": "everything unmatched that's known is illegal",
+          "include": "#illegal"
         }
       ]
     }

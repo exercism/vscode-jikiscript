@@ -10,21 +10,12 @@ Add language support for [Exercism's Bootcamp](https://bootcamp.exercism.org/) l
 - Snippets for common actions
 - Language support (`.jiki`, `.jikiscript`, .`jikis` and embedded markdown)
 
-## Known Issues
+### Strong contextual support
 
-### Missing colors
-
-If operators such as `>=` or `and` are not highlighted, support for `keyword.operator.*` is missing in your theme.
-You can use [custom theming for syntax highlighting](https://code.visualstudio.com/docs/editor/themes#_editor-syntax-highlighting).
-See the section **Custom Theming**.
-
-### Weak contextual support
-
-Whilst the highlighter can detect illegal use of `break`, `continue`, `next` and `return` at the respective "top-level", it fails in nested contexts (shows up as fine).
-This may or may not be improved in the future.
+The highlighter can detect illegal use of `break`, `continue`, `next` and `return` in any scope.
 
 ```jikiscript
-// Correctly illegal
+// Illegal
 return
 break
 continue
@@ -33,17 +24,38 @@ next
 
 ```jikiscript
 function test do
-  // correctly illegal
+  // Illegal
   break
+
+  // Fine
+  return
 end
 ```
 
 ```jikiscript
 if true do
-  // incorrectly not illegal
+  // Illegal
   break
 end
 ```
+
+```jikiscript
+repeat_forever do
+  // Illegal
+  return
+
+  // Fine
+  continue
+end
+```
+
+## Known Issues
+
+### Missing colors
+
+If operators such as `>=` or `and` are not highlighted, support for `keyword.operator.*` is missing in your theme.
+You can use [custom theming for syntax highlighting](https://code.visualstudio.com/docs/editor/themes#_editor-syntax-highlighting).
+See the section **Custom Theming**.
 
 ### Strict whitespace
 

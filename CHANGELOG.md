@@ -11,6 +11,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Changed token name of `meta.conditional.if.expression.jikiscript` to `meta.conditional.expression.jikiscript`
 - Changed token name of `meta.function.arguments.jikiscript` to `meta.function.parameters.jikiscript`
 - Changed token name of `meta.function.argument.jikiscript` to `meta.function.parameter.jikiscript`
+- Removed `meta.loops.repeat.signature.jikiscript`
+- Removed recursive `$self`
+- Added proper `statement.**.scope` and `scopes.**` for scoped detection
 
 ## [0.4.0]
 
