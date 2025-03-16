@@ -6,8 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.5.0]
 
+- Add detection of `class` related keywords
 - Add support for `meta.conditional.unless.jikiscript` (previously `meta.conditional.if.jikiscript`)
 - Changed token name of `meta.conditional.if.expression.jikiscript` to `meta.conditional.expression.jikiscript`
+- Changed token name of `meta.function.arguments.jikiscript` to `meta.function.parameters.jikiscript`
+- Changed token name of `meta.function.argument.jikiscript` to `meta.function.parameter.jikiscript`
 
 ## [0.4.0]
 
