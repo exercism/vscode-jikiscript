@@ -6,7 +6,7 @@ Add language support for [Exercism's Bootcamp](https://bootcamp.exercism.org/) l
 
 ## Features
 
-- Syntax highlighting as of Level 9 (updated: **2025-03-15**)
+- Syntax highlighting as of Level 10 (updated: **2025-03-16**)
 - Snippets for common actions
 - Language support (`.jiki`, `.jikiscript`, .`jikis` and embedded markdown)
 

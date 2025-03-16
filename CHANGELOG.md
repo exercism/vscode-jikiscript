@@ -4,6 +4,11 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.0]
+
+- Add support for `meta.conditional.unless.jikiscript` (previously `meta.conditional.if.jikiscript`)
+- Changed token name of `meta.conditional.if.expression.jikiscript` to `meta.conditional.expression.jikiscript`
+
 ## [0.4.0]
 
 - Fixed `break`, `continue`, `next`, and `return` in nested contexts
