@@ -192,7 +192,7 @@
     },
     "support.functions": {
       "comment": "built in library, sometimes conditional to the exercise",
-      "begin": "\\b((join|concatenate|push|concat|number_to_string|string_to_number|to_upper_case|to_lower_case|has_key|keys|min|max))(\\()",
+      "begin": "\\b((log|join|concatenate|push|concat|number_to_string|string_to_number|to_upper_case|to_lower_case|has_key|keys|min|max))(\\()",
       "end": "(\\))",
       "beginCaptures": {
         "1": {
