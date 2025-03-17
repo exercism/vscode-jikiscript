@@ -768,6 +768,39 @@
         }
       ]
     },
+    "statements.function-call.instance": {
+      "comment": "function call with access to this",
+      "begin": "((my)(#))?([a-zA-Z]\\w*[!?]?)(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.function.namespace.jikiscript"
+        },
+        "2": {
+          "name": "support.constant.my.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.separator.namespace.jikiscript"
+        },
+        "4": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "5": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "name": "meta.function-call.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ]
+    },
     "statements.method-call": {
       "comment": "method call",
       "begin": "(?<=[^\\.]\\.)(?=[a-zA-Z][a-zA-Z0-9_]*\\()",
@@ -1757,7 +1790,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         { "include": "#illegal" }
       ]
@@ -1849,7 +1882,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",
@@ -1880,7 +1913,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",
@@ -1968,7 +2001,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",
@@ -2000,7 +2033,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",
@@ -2032,7 +2065,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",
@@ -2063,7 +2096,7 @@
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
-        { "include": "#statements.function-call" },
+        { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
           "comment": "everything unmatched that's known is illegal",

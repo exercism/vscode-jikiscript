@@ -4,6 +4,10 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.2]
+
+- Fix `this.` context inside function calls inside methods and the constructor
+
 ## [0.5.1]
 
 - Add missing `log` built-in
