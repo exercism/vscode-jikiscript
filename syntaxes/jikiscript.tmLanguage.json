@@ -215,7 +215,34 @@
           "include": "#expression"
         }
       ],
-      "name": "meta.function-call.jikiscript"
+      "name": "meta.scope-default.function-call.jikiscript"
+    },
+    "support.functions.instance": {
+      "comment": "built in library, sometimes conditional to the exercise, with access to this references",
+      "begin": "\\b((log|join|concatenate|push|concat|number_to_string|string_to_number|to_upper_case|to_lower_case|has_key|keys|min|max))(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "support.function.jikiscript"
+        },
+        "2": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ],
+      "name": "meta.scope-instance.function-call.jikiscript"
     },
     "support.functions.drawing": {
       "comment": "built in drawing library, sometimes conditional to the exercise",
@@ -242,7 +269,34 @@
           "include": "#expression"
         }
       ],
-      "name": "meta.function-call.jikiscript"
+      "name": "meta.scope-default.function-call.jikiscript"
+    },
+    "support.functions.drawing.instance": {
+      "comment": "built in drawing library, sometimes conditional to the exercise, with access to this references",
+      "begin": "\\b(clear|rectangle|triangle|circle|ellipse|line|write|fill_color_hex|fill_color_rgb|fill_color_rgba|fill_color_hsl|stroke_width|stroke_color_hex|get_shot_length|fire_fireworks)(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "support.function.jikiscript"
+        },
+        "2": {
+          "name": "entity.name.function.jikiscript"
+        },
+        "3": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression.instance"
+        }
+      ],
+      "name": "meta.scope-instance.function-call.jikiscript"
     },
     "statements.variable.assignment.local": {
       "patterns": [
@@ -761,7 +815,7 @@
           "name": "punctuation.section.function.jikiscript"
         }
       },
-      "name": "meta.function-call.jikiscript",
+      "name": "meta.scope-default.function-call.jikiscript",
       "patterns": [
         {
           "include": "#expression"
@@ -794,7 +848,7 @@
           "name": "punctuation.section.function.jikiscript"
         }
       },
-      "name": "meta.function-call.jikiscript",
+      "name": "meta.scope-instance.function-call.jikiscript",
       "patterns": [
         {
           "include": "#expression.instance"
@@ -1788,8 +1842,8 @@
         { "include": "#literals" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         { "include": "#illegal" }
@@ -1880,8 +1934,8 @@
         { "include": "#statements.loop.constructor" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
@@ -1911,8 +1965,8 @@
         { "include": "#statements.loop.method" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
@@ -1999,8 +2053,8 @@
         { "include": "#statements.loop.constructor" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
@@ -2031,8 +2085,8 @@
         { "include": "#statements.constructor.loop" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
@@ -2063,8 +2117,8 @@
         { "include": "#statements.loop.method" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
@@ -2094,8 +2148,8 @@
         { "include": "#statements.method.loop" },
         { "include": "#statements.instance-creation" },
         { "include": "#statements.method-call" },
-        { "include": "#support.functions" },
-        { "include": "#support.functions.drawing" },
+        { "include": "#support.functions.instance" },
+        { "include": "#support.functions.drawing.instance" },
         { "include": "#statements.function-call.instance" },
         { "include": "#punctuation" },
         {
