@@ -783,9 +783,46 @@
           "name": "punctuation.section.function.jikiscript"
         }
       },
+      "name": "meta.scope-default.instance-creation.jikiscript",
       "patterns": [
         {
           "include": "#expression"
+        }
+      ]
+    },
+    "statements.instance-creation.instance": {
+      "comment": "new instance creation with access to this",
+      "begin": "(?<![_\\.#])\\b(new)\\s+((my)(#))?([a-zA-Z]\\w*[!?]?)(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.special-method.jikiscript"
+        },
+        "2": {
+          "name": "meta.class.namespace.jikiscript"
+        },
+        "3": {
+          "name": "support.constant.my.jikiscript"
+        },
+        "4": {
+          "name": "punctuation.separator.namespace.jikiscript"
+        },
+        "5": {
+          "name": "entity.name.type.class.jikiscript"
+        },
+        "6": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.section.function.jikiscript"
+        }
+      },
+      "name": "meta.scope-instance.instance-creation.jikiscript",
+      "patterns": [
+        {
+          "include": "#expression.instance"
         }
       ]
     },
@@ -1840,7 +1877,7 @@
       "patterns": [
         { "include": "#this-access" },
         { "include": "#literals" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -1900,7 +1937,7 @@
         { "include": "#statements.for-each.function" },
         { "include": "#statements.conditional.function" },
         { "include": "#statements.loop.function" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions" },
         { "include": "#support.functions.drawing" },
@@ -1932,7 +1969,7 @@
         { "include": "#statements.for-each.constructor" },
         { "include": "#statements.conditional.constructor" },
         { "include": "#statements.loop.constructor" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -1963,7 +2000,7 @@
         { "include": "#statements.for-each.method" },
         { "include": "#statements.conditional.method" },
         { "include": "#statements.loop.method" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -2051,7 +2088,7 @@
         { "include": "#statements.for-each.constructor" },
         { "include": "#statements.conditional.constructor-loop" },
         { "include": "#statements.loop.constructor" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -2083,7 +2120,7 @@
         { "include": "#statements.constructor.for-each" },
         { "include": "#statements.constructor.loop.conditional" },
         { "include": "#statements.constructor.loop" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -2115,7 +2152,7 @@
         { "include": "#statements.for-each.method" },
         { "include": "#statements.conditional.method-loop" },
         { "include": "#statements.loop.method" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },
@@ -2146,7 +2183,7 @@
         { "include": "#statements.method.for-each" },
         { "include": "#statements.method.loop.conditional" },
         { "include": "#statements.method.loop" },
-        { "include": "#statements.instance-creation" },
+        { "include": "#statements.instance-creation.instance" },
         { "include": "#statements.method-call" },
         { "include": "#support.functions.instance" },
         { "include": "#support.functions.drawing.instance" },

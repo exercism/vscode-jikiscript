@@ -4,6 +4,10 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.0]
+
+- Fix object creation with references to this inside the constructor inside constructors or methods.
+
 ## [0.5.3]
 
 - Fix `this.` context inside built-in function calls inside methods and the constructor
