@@ -4,26 +4,30 @@ All notable changes to the "jikiscript" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.1]
+
+- Changed README.md with more examples
+
 ## [1.0.0]
 
-- Fix object creation with references to this inside the constructor inside constructors or methods.
+- Fixed object creation with references to this inside the constructor inside constructors or methods.
 
 ## [0.5.3]
 
-- Fix `this.` context inside built-in function calls inside methods and the constructor
+- Fixed `this.` context inside built-in function calls inside methods and the constructor
 
 ## [0.5.2]
 
-- Fix `this.` context inside function calls inside methods and the constructor
+- Fixed `this.` context inside function calls inside methods and the constructor
 
 ## [0.5.1]
 
-- Add missing `log` built-in
+- Added missing `log` built-in
 
 ## [0.5.0]
 
-- Add detection of `class` related keywords
-- Add support for `meta.conditional.unless.jikiscript` (previously `meta.conditional.if.jikiscript`)
+- Added detection of `class` related keywords
+- Added support for `meta.conditional.unless.jikiscript` (previously `meta.conditional.if.jikiscript`)
 - Changed token name of `meta.conditional.if.expression.jikiscript` to `meta.conditional.expression.jikiscript`
 - Changed token name of `meta.function.arguments.jikiscript` to `meta.function.parameters.jikiscript`
 - Changed token name of `meta.function.argument.jikiscript` to `meta.function.parameter.jikiscript`
